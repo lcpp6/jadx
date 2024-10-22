@@ -1,6 +1,8 @@
 # 该项目对于安卓开发人员有一些值得参考的意义：
 ### 1、如果你要在安卓上使用，可以参考这个示例：[jadx-lib-android-example](https://github.com/jadx-decompiler/jadx-lib-android-example)
-jadx这个项目主要是对apk（即dex）反编译成为 java。上面这个示例是反编译多个dex（也就是apk里面的全部dex ）
+jadx这个项目主要是对apk（即dex）反编译成为 java。\
+上面这个示例是反编译多个dex（也就是apk里面的全部dex ）\
+但是也提供了其他输入插件，比如dex、smali、等，请参考以下命令。
 
 但是我建议在安卓上每次单独反编译一个Smali文件，而不是dex。
 
@@ -9,6 +11,116 @@ jadx这个项目主要是对apk（即dex）反编译成为 java。上面这个�
 ### 2、如果你要在安卓上实现插件系统，也可以参考其中的插件实现方式。
 
 
+### 3、命令中文翻译参考
+```
+jadx[-gui] [命令] [选项] <输入文件> (.apk, .dex, .jar, .class, .smali, .zip, .aar, .arsc, .aab, .xapk, .jadx.kts)
+命令（使用 '<命令> --help' 查看命令选项）：
+  plugins	  - 管理jadx插件
+
+选项：
+  -d, --output-dir                      - 输出目录
+  -ds, --output-dir-src                 - 源代码的输出目录
+  -dr, --output-dir-res                 - 资源的输出目录
+  -r, --no-res                          - 不解码资源
+  -s, --no-src                          - 不反编译源代码
+  --single-class                        - 反编译单个类，完整名称，原始或别名
+  --single-class-output                 - 如果反编译单个类，则为写入文件或目录
+  --output-format                       - 可以是 'java' 或 'json'，默认：java
+  -e, --export-gradle                   - 保存为Android Gradle项目
+  -j, --threads-count                   - 处理线程数，默认：4
+  -m, --decompilation-mode              - 代码输出模式：
+                                           'auto' - 尝试最佳选项（默认）
+                                           'restructure' - 恢复代码结构（普通Java代码）
+                                           'simple' - 简化指令（线性，带goto）
+                                           'fallback' - 原始指令不修改
+  --show-bad-code                       - 显示不一致的代码（错误反编译）
+  --no-xml-pretty-print                 - 不美化XML
+  --no-imports                          - 禁用导入使用，始终写入完整包名
+  --no-debug-info                       - 禁用调试信息解析和处理
+  --add-debug-lines                     - 如果可用，添加带有调试行号的注释
+  --no-inline-anonymous                 - 禁用匿名类内联
+  --no-inline-methods                   - 禁用方法内联
+  --no-move-inner-classes               - 禁用将内部类移动到父类
+  --no-inline-kotlin-lambda             - 禁用Kotlin lambdas内联
+  --no-finally                          - 不提取finally块
+  --no-restore-switch-over-string       - 不恢复switch over string
+  --no-replace-consts                   - 不用匹配的常量字段替换常量值
+  --escape-unicode                      - 在字符串中转义非拉丁字符（使用 \u）
+  --respect-bytecode-access-modifiers   - 不改变原始访问修饰符
+  --mappings-path                       - 反混淆映射文件或目录。允许的格式：Tiny和Tiny v2（两者都是'.tiny'），Enigma（'.mapping'）或Enigma目录
+  --mappings-mode                       - 设置处理反混淆映射文件的模式：
+                                           'read' - 仅读取，用户可以随时手动保存（默认）
+                                           'read-and-autosave-every-change' - 每次更改后读取并自动保存
+                                           'read-and-autosave-before-closing' - 退出应用程序或关闭项目前读取并自动保存
+                                           'ignore' - 不读取或保存（可以用来跳过项目文件中引用的映射文件加载）
+  --deobf                               - 激活反混淆
+  --deobf-min                           - 名称的最小长度，如果更短则重命名，默认：3
+  --deobf-max                           - 名称的最大长度，如果更长则重命名，默认：64
+  --deobf-whitelist                     - 排除反混淆的类（完整名称）和包（以'.*'结尾）的空格分隔列表，默认：android.support.v4.* android.support.v7.* android.support.v4.os.* android.support.annotation.Px androidx.core.os.* androidx.annotation.Px
+  --deobf-cfg-file                      - 用于JADX自动生成名称的反混淆映射文件（JOBF文件格式），默认：与输入文件相同目录和名称，扩展名为'.jobf'
+  --deobf-cfg-file-mode                 - 设置处理JADX自动生成名称的反混淆映射文件的模式：
+                                           'read' - 如果找到则读取，不保存（默认）
+                                           'read-or-save' - 如果找到则读取，否则保存（不覆盖）
+                                           'overwrite' - 不读取，始终保存
+                                           'ignore' - 不读取也不保存
+  --deobf-res-name-source               - 更好的资源名称来源：
+                                           'auto' - 自动选择最佳名称（默认）
+                                           'resources' - 使用资源名称
+                                           'code' - 使用R类字段名称
+  --use-source-name-as-class-name-alias - 将源名称用作类名别名：
+                                           'always' - 如果可用，始终使用源名称
+                                           'if-better' - 如果似乎比当前名称更好，则使用源名称
+                                           'never' - 即使可用，也从不使用源名称
+  --use-kotlin-methods-for-var-names    - 使用Kotlin内置方法重命名变量，值：禁用，应用，应用并隐藏，默认：应用
+  --rename-flags                        - 修复选项（逗号分隔列表）：
+                                           'case' - 修复大小写敏感性问题（根据--fs-case-sensitive选项），
+                                           'valid' - 将Java标识符重命名为有效名称，
+                                           'printable' - 从标识符中删除不可打印字符，
+                                           或单个 'none' - 禁用所有重命名
+                                           或单个 'all' - 启用所有（默认）
+  --integer-format                      - 如何显示整数：
+                                           'auto' - 自动选择（默认）
+                                           'decimal' - 使用十进制
+                                           'hexadecimal' - 使用十六进制
+  --fs-case-sensitive                   - 将文件系统视为大小写敏感，默认为false
+  --cfg                                 - 将方法控制流图保存到dot文件
+  --raw-cfg                             - 保存方法控制流图（使用原始指令）
+  -f, --fallback                        - 将 '--decompilation-mode' 设置为 'fallback'（已弃用）
+  --use-dx                              - 使用dx/d8将Java字节码转换
+  --comments-level                      - 设置代码注释级别，值：错误，警告，信息，调试，仅用户，默认：信息
+  --log-level                           - 设置日志级别，值：安静，进度，错误，警告，信息，调试，默认：进度
+  -v, --verbose                         - 详细输出（将 --log-level 设置为 DEBUG）
+  -q, --quiet                           - 关闭输出（将 --log-level 设置为 QUIET）
+  --version                             - 打印jadx版本
+  -h, --help                            - 打印此帮助
+
+插件选项（-P<名称>=<值>）：
+  dex-input: 加载.dex和.apk文件
+    - dex-input.verify-checksum         - 在加载前验证dex文件的校验和，值：[是，否]，默认：是
+  java-convert: 将.class, .jar和.aar文件转换为dex
+    - java-convert.mode                 - 转换模式，值：[dx, d8, 两者]，默认：两者
+    - java-convert.d8-desugar           - 在d8中使用desugar，值：[是，否]，默认：否
+  kotlin-metadata: 使用kotlin.Metadata注解进行代码生成
+    - kotlin-metadata.class-alias       - 重命名类别名，值：[是，否]，默认：是
+    - kotlin-metadata.method-args       - 重命名函数参数，值：[是，否]，默认：是
+    - kotlin-metadata.fields            - 重命名字段，值：[是，否]，默认：是
+    - kotlin-metadata.companion         - 重命名伴随对象，值：[是，否]，默认：是
+    - kotlin-metadata.data-class        - 添加数据类修饰符，值：[是，否]，默认：是
+    - kotlin-metadata.to-string         - 使用toString重命名字段，值：[是，否]，默认：是
+    - kotlin-metadata.getters           - 将简单getter重命名为字段名称，值：[是，否]，默认：是
+  rename-mappings: 各种映射支持
+    - rename-mappings.format            - 映射格式，值：[AUTO, TINY_FILE, TINY_2_FILE, ENIGMA_FILE, ENIGMA_DIR, SRG_FILE, XSRG_FILE, JAM_FILE, CSRG_FILE, TSRG_FILE, TSRG_2_FILE, PROGUARD_FILE, RECAF_SIMPLE_FILE, JOBF_FILE]，默认：AUTO
+    - rename-mappings.invert            - 加载时反转映射，值：[是，否]，默认：否
+  smali-input: 加载.smali文件
+    - smali-input.api-level             - Android API级别，默认：27
+
+环境变量：
+  JADX_DISABLE_XML_SECURITY - 设置为 'true' 以禁用所有XML文件的安全检查
+  JADX_DISABLE_ZIP_SECURITY - 设置为 'true' 以禁用所有zip文件的安全检查
+  JADX_ZIP_MAX_ENTRIES_COUNT - zip文件中允许的最大条目数（默认：100,000）
+  JADX_CONFIG_DIR - 自定义
+
+```
 
 ----
 
