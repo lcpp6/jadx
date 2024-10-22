@@ -1,3 +1,16 @@
+# 该项目对于安卓开发人员有一些值得参考的意义：
+### 1、如果你要在安卓上使用，可以参考这个示例：[jadx-lib-android-example](https://github.com/jadx-decompiler/jadx-lib-android-example)
+但是我建议每次单独反编译一个Smali文件，而不是dex。
+上面这个示例是反编译多个dex（也就是apk里面的全部dex ）
+
+一个smali这样速度快很多
+
+### 2、如果你要实现插件系统，也可以参考其中的插件实现方式。
+
+
+
+----
+
 <img src="https://raw.githubusercontent.com/skylot/jadx/master/jadx-gui/src/main/resources/logos/jadx-logo.png" width="64" align="left" />
 
 ## JADX
